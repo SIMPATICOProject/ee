@@ -7,6 +7,7 @@ import pandas as pd
 from transform import toGoogleChartTimePerTab, toGoogleChartDurationFrequency
 #from sklearn.cluster import KMeans
 
+# Every 4 hours this script execute. crontab -e to change it
 
 ####################
 def standardize(x):
@@ -21,8 +22,6 @@ response = urllib2.urlopen("http://192.168.26.187:8080/simpatico/api/logs/find?w
 html = response.read()
 logs=eval(html)["results"]
 logslist=map(lambda x: x["data"], logs)
-
-print logslist
 
 #duration per each tab
 drlist0=[];drlist1=[];drlist2=[];drlist3=[];drlist4=[]

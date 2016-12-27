@@ -1,5 +1,6 @@
 import json
 import urllib2
+import numpy as np
 
 base_url = 'http://192.168.26.187:8080/simpatico/api/analytics/'
 
@@ -13,15 +14,12 @@ def toGoogleChartTimePerTab(list):
 	f = urllib2.urlopen(req)
 	response = f.read()
 	f.close()
-	print 'Response: ' + response
+	print 'Response toGoogleChartTimePerTab: ' + response
 ########################	
 def toGoogleChartDurationFrequency(listArrays):
 	# We recibe multiple matrix. The 2 first arrays are from tab 0. for example. array(28, 0), array (7,5) = 28 users spend 7 seconds in tab 0 and 0 users spend 5 second in tab 0
 	w, h = 5, 5
 	matrix = [[0 for x in range(w)] for y in range(h)] 
-
-	print "Recived: "
-	print listArrays
 
 	numDoubleArray = len(listArrays)
 	numElems = len(listArrays[0][0])
@@ -43,25 +41,14 @@ def toGoogleChartDurationFrequency(listArrays):
 			else:	
 				matrix[tab][4] += users	
 		tab -= 1		
-			
-	# We have to create multiple arrays like 
-	'''
-	['0-30', 0, 0, 0, 0, 0]   matrix 4 row
-	['30-60', 0, 0, 0, 0, 0] matrix 3 row
-	['60-90', 0, 0, 0, 0, 0] 
-	['90-120', 0, 0, 0, 0, 0]
-	['+120', 0, 0, 0, 0, 0]  matrix 0 row
-	'''
 
+	# Create array data and convert to python native data type
 	arrayJson = []
-	arrayJson.append([matrix[4][0], matrix[4][1], matrix[4][2], matrix[4][3], matrix[4][4]])
-	arrayJson.append([matrix[3][0], matrix[3][1], matrix[3][2], matrix[3][3], matrix[3][4]])
-	arrayJson.append([matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3], matrix[2][4]])
-	arrayJson.append([matrix[1][0], matrix[1][1], matrix[1][2], matrix[1][3], matrix[1][4]])
-	arrayJson.append([matrix[0][0], matrix[0][1], matrix[0][2], matrix[0][3], matrix[0][4]])
-
-	print "Matrix"
-	print arrayJson		
+	arrayJson.append([np.uint32(matrix[4][0]).item(), np.uint32(matrix[4][1]).item(), np.uint32(matrix[4][2]).item(), np.uint32(matrix[4][3]).item(), np.uint32(matrix[4][4]).item()])
+	arrayJson.append([np.uint32(matrix[3][0]).item(), np.uint32(matrix[3][1]).item(), np.uint32(matrix[3][2]).item(), np.uint32(matrix[3][3]).item(), np.uint32(matrix[3][4]).item()])
+	arrayJson.append([np.uint32(matrix[2][0]).item(), np.uint32(matrix[2][1]).item(), np.uint32(matrix[2][2]).item(), np.uint32(matrix[2][3]).item(), np.uint32(matrix[2][4]).item()])
+	arrayJson.append([np.uint32(matrix[1][0]).item(), np.uint32(matrix[1][1]).item(), np.uint32(matrix[1][2]).item(), np.uint32(matrix[1][3]).item(), np.uint32(matrix[1][4]).item()])
+	arrayJson.append([np.uint32(matrix[0][0]).item(), np.uint32(matrix[0][1]).item(), np.uint32(matrix[0][2]).item(), np.uint32(matrix[0][3]).item(), np.uint32(matrix[0][4]).item()])
 
 	jsondata = {}
 	jsondata['type'] = 'duration_frecuency'
@@ -71,5 +58,5 @@ def toGoogleChartDurationFrequency(listArrays):
 	f = urllib2.urlopen(req)
 	response = f.read()
 	f.close()
-	print 'Response: ' + response
+	print 'Response toGoogleChartDurationFrequency: ' + response
 ########################	
