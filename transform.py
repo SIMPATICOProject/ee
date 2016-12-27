@@ -22,7 +22,7 @@ def toGoogleChartDurationFrequency(listArrays):
 	matrix = [[0 for x in range(w)] for y in range(h)] 
 
 	numDoubleArray = len(listArrays)
-	numElems = len(listArrays[0][0])
+	numElems = len(listArrays[0][0]) 
 
 	tab = 4
 

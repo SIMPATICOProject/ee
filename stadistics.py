@@ -47,7 +47,7 @@ drhistlist = map(lambda x: plt.hist(x),drlist)  #--> output
 toGoogleChartTimePerTab(dravlist)
 toGoogleChartDurationFrequency(drhistlist)
 
-#plt.title("Histgram")
+#plt.title("Histgram") 
 #plt.xlabel("x")
 #plt.ylabel("frequency")
 #plt.show()
