@@ -1,10 +1,13 @@
 import numpy as np
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 import urllib2
 import pandas as pd
-import numpy as np
-from sklearn.cluster import KMeans
+from transform import toGoogleChartTimePerTab, toGoogleChartDurationFrequency
+#from sklearn.cluster import KMeans
 
+# Every 4 hours this script execute. crontab -e to change it
 
 ####################
 def standardize(x):
@@ -40,12 +43,16 @@ dravlist = map(lambda x: np.mean(x),drlist)  #--> output
 #duration histgram
 drhistlist = map(lambda x: plt.hist(x),drlist)  #--> output
 
-#plt.title("Histgram")
+# insert to elastic search
+toGoogleChartTimePerTab(dravlist)
+toGoogleChartDurationFrequency(drhistlist)
+
+#plt.title("Histgram") 
 #plt.xlabel("x")
 #plt.ylabel("frequency")
 #plt.show()
 
-
+'''
 #kmean using duration time and number of click
 tmpdict={}
 for logdict in drlogslist:
@@ -85,3 +92,4 @@ kmdict = tmpdict #--> output
 #req.add_header('Content-Type', 'application/json')
 #
 #response = urllib2.urlopen(req, json.dumps(data))
+'''
