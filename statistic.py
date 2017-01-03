@@ -15,14 +15,14 @@ def standardize(x):
 
 
 #get data from DB
-response = urllib2.urlopen("http://192.168.26.187:8080/simpatico/api/logs/find")
-html = response.read()
-logs=eval(html)["results"]
-logslist=map(lambda x: x["data"], logs)
+durationdata = urllib2.urlopen("http://192.168.26.187:8080/simpatico/api/logs/find?words=duration")
+durationdata = durationdata.read()
+drlogs=eval(durationdata)["results"]
+drlogslist=map(lambda x: x["data"], drlogs)
 
 #duration per each tab
 drlist0=[];drlist1=[];drlist2=[];drlist3=[];drlist4=[]
-for logdict in logslist:
+for logdict in drlogslist:
     if logdict["type"]==0:
         drlist0.append(logdict["duration"])
     elif logdict["type"]==1:
@@ -48,7 +48,7 @@ drhistlist = map(lambda x: plt.hist(x),drlist)  #--> output
 
 #kmean using duration time and number of click
 tmpdict={}
-for logdict in logslist:
+for logdict in drlogslist:
     if logdict["serial"] in tmpdict.keys():
         tmpdict[logdict["serial"]]["duration"] += logdict["duration"]
         tmpdict[logdict["serial"]]["clicknum"] += 1
