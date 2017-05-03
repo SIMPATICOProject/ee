@@ -1,4 +1,5 @@
 # Enrichment Engine
+Enrichment Engine is a civil servant side information system presenting a dashboard of the data collected from several of the components and enriched intelligence for the civil servants to improve the e-services.
 
 ## Explanation
 These scripts read data from the database through LOG component and perform some operations. When they finish the results are stored again in the database through LOG api.
