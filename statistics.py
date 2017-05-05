@@ -1,13 +1,15 @@
 import numpy as np
 import matplotlib as mpl
-mpl.use('Agg')
+mpl.use('Agg')              # Workaround to generating matplotlib graphs without a running X server
 import matplotlib.pyplot as plt
 import urllib2
 import pandas as pd
 from transform import toGoogleChartTimePerTab, toGoogleChartDurationFrequency
-#from sklearn.cluster import KMeans
 
-# Every 4 hours this script execute. crontab -e to change it
+### VARIABLES ####
+ip_simpatico = 'http://localhost:8080'
+###
+
 
 ####################
 def standardize(x):
@@ -16,9 +18,8 @@ def standardize(x):
     return z
 ####################
 
-
 #get data from DB
-durationdata = urllib2.urlopen("http://192.168.26.187:8080/simpatico/api/logs/find?words=duration")
+durationdata = urllib2.urlopen(ip_simpatico + "/simpatico/api/logs/find?words=duration")
 durationdata = durationdata.read()
 drlogs=eval(durationdata)["results"]
 drlogslist=map(lambda x: x["data"], drlogs)
@@ -44,8 +45,8 @@ dravlist = map(lambda x: np.mean(x),drlist)  #--> output
 drhistlist = map(lambda x: plt.hist(x),drlist)  #--> output
 
 # insert to elastic search
-toGoogleChartTimePerTab(dravlist)
-toGoogleChartDurationFrequency(drhistlist)
+toGoogleChartTimePerTab(dravlist, ip_simpatico)
+toGoogleChartDurationFrequency(drhistlist, ip_simpatico)
 
 #plt.title("Histgram") 
 #plt.xlabel("x")

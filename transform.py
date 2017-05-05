@@ -2,21 +2,19 @@ import json
 import urllib2
 import numpy as np
 
-base_url = 'http://192.168.26.187:8080/simpatico/api/analytics/'
-
 ########################
-def toGoogleChartTimePerTab(list):
+def toGoogleChartTimePerTab(list, ip_simpatico):
 	jsondata = {}
 	jsondata['type'] = 'time_per_tab'
 	jsondata['payload'] = list
 	data = json.dumps(jsondata)
-	req = urllib2.Request(base_url + 'insert', data, {'Content-Type': 'application/json'})
+	req = urllib2.Request(ip_simpatico + '/simpatico/api/analytics/insert', data, {'Content-Type': 'application/json'})
 	f = urllib2.urlopen(req)
 	response = f.read()
 	f.close()
 	print 'Response toGoogleChartTimePerTab: ' + response
 ########################	
-def toGoogleChartDurationFrequency(listArrays):
+def toGoogleChartDurationFrequency(listArrays, ip_simpatico):
 	# We recibe multiple matrix. The 2 first arrays are from tab 0. for example. array(28, 0), array (7,5) = 28 users spend 7 seconds in tab 0 and 0 users spend 5 second in tab 0
 	w, h = 5, 5
 	matrix = [[0 for x in range(w)] for y in range(h)] 
@@ -54,7 +52,7 @@ def toGoogleChartDurationFrequency(listArrays):
 	jsondata['type'] = 'duration_frecuency'
 	jsondata['payload'] = arrayJson
 	data = json.dumps(jsondata)
-	req = urllib2.Request(base_url + 'insert', data, {'Content-Type': 'application/json'})
+	req = urllib2.Request(ip_simpatico + '/simpatico/api/analytics/insert', data, {'Content-Type': 'application/json'})
 	f = urllib2.urlopen(req)
 	response = f.read()
 	f.close()
